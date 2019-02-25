@@ -20,7 +20,7 @@ jobs:
     steps:
       - checkout
       - run: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
-      - run: docker build --rm=false -t eu.gcr.io/${GCP_PEOJECT}/${image_name}
+      - run: docker build --rm=false -t eu.gcr.io/${gcp_project}/${image_name}
       - run: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
       - run: gcloud --quiet config set project ${gcp_project}
       - run: gcloud docker -- push eu.gcr.io/${gcp_project}/${image_name}
