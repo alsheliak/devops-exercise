@@ -21,7 +21,7 @@ jobs:
       - checkout
       - run: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
       # - run: echo ${MONGO_URI} > ${HOME}/MONGO_URI
-      - run: docker build --build-arg buildtime_variable=$MONGO_URI --rm=false -t eu.gcr.io/${gcp_project}/${image_name} .
+      - run: docker build --build-arg buildtime_variable=${MONGO_URI} --rm=false -t eu.gcr.io/${gcp_project}/${image_name} .
       - run: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
       - run: gcloud --quiet config set project ${gcp_project}
       - run: gcloud docker -- push eu.gcr.io/${gcp_project}/${image_name}
