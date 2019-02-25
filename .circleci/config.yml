@@ -11,8 +11,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run: docker build -t ${IMAGE_NAME} .
-      - run: docker run -d --rm --name node_app ${IMAGE_NAME}
+      - run: docker build -t ${image_name} .
+      - run: docker run -d --rm --name node_app ${image_name}
       - run: docker stop node_app
 
   publish:
@@ -20,10 +20,10 @@ jobs:
     steps:
       - checkout
       - run: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
-      - run: docker build --rm=false -t eu.gcr.io/${GCP_PEOJECT}/${IMAGE_NAME}
+      - run: docker build --rm=false -t eu.gcr.io/${GCP_PEOJECT}/${image_name}
       - run: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
-      - run: gcloud --quiet config set project ${GCP_PROJECT}
-      - run: gcloud docker -- push eu.gcr.io/${GCP_PROJECT}/${IMAGE_NAME}
+      - run: gcloud --quiet config set project ${gcp_project}
+      - run: gcloud docker -- push eu.gcr.io/${gcp_project}/${image_name}
 
 
   # deploy:
@@ -31,7 +31,7 @@ jobs:
   #   steps:
   #     - checkout
   #     - run: echo $ID_RSA | base64 -d > id_rsa && chmod 400 id_rsa
-  #     - run: ssh -i id_rsa core@$VM_IP "IMAGE=${IMAGE_NAME}:$CIRCLE_SHA1 bash -s" < deploy.sh
+  #     - run: ssh -i id_rsa core@$VM_IP "IMAGE=${image_name}:$CIRCLE_SHA1 bash -s" < deploy.sh
 
 workflows:
   version: 2
